@@ -101,7 +101,7 @@ defmodule Hexpm.Repository.Packages do
   end
 
   def preload(package) do
-    package = Repo.preload(package, [:downloads, :releases])
+    package = Repo.preload(package, [:downloads, releases: :download_breakdowns])
     update_in(package.releases, &Release.sort/1)
   end
 

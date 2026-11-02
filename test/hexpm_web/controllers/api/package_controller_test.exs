@@ -325,6 +325,45 @@ defmodule HexpmWeb.API.PackageControllerTest do
              }
     end
 
+    test "get package with downloads per release" do
+      package = insert(:package)
+      release = insert(:release, package: package, version: "0.0.1")
+      insert(:release, package: package, version: "0.0.2")
+
+      insert(:download,
+        package: package,
+        release: release,
+        downloads: 1,
+        day: database_days_ago(1)
+      )
+
+      insert(:download,
+        package: package,
+        release: release,
+        downloads: 10,
+        day: database_days_ago(12)
+      )
+
+      insert(:download,
+        package: package,
+        release: release,
+        downloads: 100,
+        day: database_days_ago(91)
+      )
+
+      :ok = Hexpm.Repo.refresh_view(Hexpm.Repository.ReleaseDownloadBreakdown)
+
+      result =
+        build_conn()
+        |> get("/api/packages/#{package.name}")
+        |> json_response(200)
+
+      downloads = Map.new(result["releases"], &{&1["version"], &1["downloads"]})
+
+      assert downloads["0.0.1"] == %{"day" => 1, "week" => 1, "recent" => 11, "all" => 111}
+      assert downloads["0.0.2"] == %{}
+    end
+
     test "get package with vulnerability", %{package4: package4} do
       conn = get(build_conn(), "/api/packages/#{package4.name}")
       result = json_response(conn, 200)

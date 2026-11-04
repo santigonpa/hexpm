@@ -52,11 +52,7 @@ defmodule HexpmWeb.API.PackageController do
     end
   end
 
-  defp releases_preload(%{"release_downloads" => "true"}) do
-    if Hexpm.FeatureFlags.mode(:release_download_breakdowns) == :enabled,
-      do: {:releases, :download_breakdowns},
-      else: :releases
-  end
+  defp releases_preload(%{"release_downloads" => "true"}), do: {:releases, :download_breakdowns}
 
   defp releases_preload(_params), do: :releases
 

@@ -325,6 +325,58 @@ defmodule HexpmWeb.API.PackageControllerTest do
              }
     end
 
+    test "get package includes the downloads of each release when requested", %{
+      package4: package4
+    } do
+      release = Enum.find(package4.releases, &(to_string(&1.version) == "0.0.1"))
+
+      insert(:download,
+        package: package4,
+        release: release,
+        downloads: 1,
+        day: database_days_ago(1)
+      )
+
+      insert(:download,
+        package: package4,
+        release: release,
+        downloads: 10,
+        day: database_days_ago(12)
+      )
+
+      insert(:download,
+        package: package4,
+        release: release,
+        downloads: 100,
+        day: database_days_ago(91)
+      )
+
+      :ok = Hexpm.Repo.refresh_view(Hexpm.Repository.ReleaseDownloadBreakdown)
+
+      result =
+        build_conn()
+        |> get("/api/packages/#{package4.name}?release_downloads=true")
+        |> json_response(200)
+
+      downloads = Map.new(result["releases"], &{&1["version"], &1["downloads"]})
+
+      assert downloads["0.0.1"] == %{"day" => 1, "week" => 1, "recent" => 11, "all" => 111}
+      assert downloads["1.0.0"] == %{}
+    end
+
+    test "get package leaves the downloads of each release out unless requested", %{
+      package4: package4
+    } do
+      for query <- ["", "?release_downloads=false"] do
+        result =
+          build_conn()
+          |> get("/api/packages/#{package4.name}#{query}")
+          |> json_response(200)
+
+        assert Enum.all?(result["releases"], &(not Map.has_key?(&1, "downloads")))
+      end
+    end
+
     test "get package with vulnerability", %{package4: package4} do
       conn = get(build_conn(), "/api/packages/#{package4.name}")
       result = json_response(conn, 200)

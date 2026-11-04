@@ -45,7 +45,6 @@ defmodule Hexpm.Shared do
         Repository.RegistryWorker,
         Repository.Release,
         Repository.ReleaseDocFiles,
-        Repository.ReleaseDownload,
         Repository.ReleaseDownloadBreakdown,
         Repository.ReleaseMetadata,
         Repository.ReleaseRetirement,

@@ -761,7 +761,10 @@ defmodule Hexpm.Repository.Releases do
   defp parse_version(version), do: Version.parse!(version)
 
   defp preload_field(release, :requirements), do: {:requirements, Release.requirements(release)}
-  defp preload_field(release, :downloads), do: {:downloads, ReleaseDownload.release(release)}
+
+  defp preload_field(release, :downloads),
+    do: {:downloads, ReleaseDownloadBreakdown.release(release)}
+
   defp preload_field(_release, :publisher), do: {:publisher, [:emails, :organization]}
 
   defp preload_field(_release, :security_advisories),

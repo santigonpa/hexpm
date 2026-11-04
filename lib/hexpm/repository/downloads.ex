@@ -48,7 +48,7 @@ defmodule Hexpm.Repository.Downloads do
           Download.by_period(package_id, group_by || :all)
 
         %Release{id: release_id} ->
-          ReleaseDownload.by_period(release_id, group_by || :all, date_filtered?)
+          ReleaseDownloadBreakdown.by_period(release_id, group_by || :all, date_filtered?)
       end
 
     query =

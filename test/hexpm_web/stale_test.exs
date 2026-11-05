@@ -7,7 +7,7 @@ defmodule HexpmWeb.StaleTest do
     Download,
     PackageDownload,
     PackageMetadata,
-    ReleaseDownload,
+    ReleaseDownloadBreakdown,
     ReleaseMetadata,
     ReleaseRetirement
   }
@@ -19,7 +19,7 @@ defmodule HexpmWeb.StaleTest do
       %Download{},
       %PackageDownload{},
       %PackageMetadata{},
-      %ReleaseDownload{},
+      %ReleaseDownloadBreakdown{},
       %ReleaseMetadata{},
       %ReleaseRetirement{}
     ]

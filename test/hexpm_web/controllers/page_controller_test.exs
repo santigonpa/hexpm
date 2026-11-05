@@ -3,7 +3,7 @@ defmodule HexpmWeb.PageControllerTest do
 
   alias Hexpm.Repository.{
     PackageDownload,
-    ReleaseDownload
+    ReleaseDownloadBreakdown
   }
 
   setup do
@@ -44,7 +44,7 @@ defmodule HexpmWeb.PageControllerTest do
     insert(:download, package: p2, release: rel2, downloads: 1, day: database_days_ago(91))
 
     Repo.refresh_view(PackageDownload)
-    Repo.refresh_view(ReleaseDownload)
+    Repo.refresh_view(ReleaseDownloadBreakdown)
 
     %{package1: p1, package2: p2, package3: p3}
   end

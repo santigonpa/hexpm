@@ -1,7 +1,6 @@
 defmodule Hexpm do
   def setup do
     Hexpm.Repo.refresh_view(Hexpm.Repository.PackageDownload, concurrently: false)
-    Hexpm.Repo.refresh_view(Hexpm.Repository.ReleaseDownload, concurrently: false)
     Hexpm.Repo.refresh_view(Hexpm.Repository.ReleaseDownloadBreakdown, concurrently: false)
 
     unless Hexpm.Repo.get(Hexpm.Accounts.Organization, 1) do

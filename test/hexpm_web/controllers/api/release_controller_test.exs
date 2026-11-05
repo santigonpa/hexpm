@@ -2018,7 +2018,7 @@ defmodule HexpmWeb.API.ReleaseControllerTest do
       insert(:download, package: package, release: release, downloads: 2, day: ~D[2000-02-07])
       insert(:download, package: package, release: release, downloads: 4, day: ~D[2000-02-08])
 
-      Hexpm.Repo.refresh_view(Hexpm.Repository.ReleaseDownload)
+      Hexpm.Repo.refresh_view(Hexpm.Repository.ReleaseDownloadBreakdown)
 
       %{
         user: user,

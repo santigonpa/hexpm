@@ -17,7 +17,6 @@ defmodule Hexpm.Repository.DownloadsWorker do
     Package,
     PackageDownload,
     Release,
-    ReleaseDownload,
     ReleaseDownloadBreakdown,
     Repository
   }
@@ -128,10 +127,6 @@ defmodule Hexpm.Repository.DownloadsWorker do
 
             time_log("refresh PackageDownload view", fn ->
               Repo.refresh_view(PackageDownload, timeout: 60_000)
-            end)
-
-            time_log("refresh ReleaseDownload view", fn ->
-              Repo.refresh_view(ReleaseDownload, timeout: 60_000)
             end)
 
             time_log("refresh ReleaseDownloadBreakdown view", fn ->

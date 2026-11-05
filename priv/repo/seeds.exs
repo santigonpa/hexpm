@@ -1,7 +1,7 @@
 import Hexpm.Factory
 alias Hexpm.Accounts.{AuditLog, Users}
 alias Hexpm.OAuth.Client
-alias Hexpm.Repository.{PackageDownload, ReleaseDownload, ReleaseDownloadBreakdown}
+alias Hexpm.Repository.{PackageDownload, ReleaseDownloadBreakdown}
 
 Hexpm.Fake.start()
 Hexpm.setup()
@@ -919,7 +919,6 @@ Hexpm.Repo.transaction(fn ->
   end)
 
   Hexpm.Repo.refresh_view(PackageDownload, concurrently: false)
-  Hexpm.Repo.refresh_view(ReleaseDownload, concurrently: false)
   Hexpm.Repo.refresh_view(ReleaseDownloadBreakdown, concurrently: false)
 
   # Seed audit log entries for the audit-log IP geography UI.
